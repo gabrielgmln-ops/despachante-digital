@@ -7,6 +7,7 @@ openpyxl>=3.1
 Jinja2>=3.1
 APScheduler>=3.10,<4
 python-dotenv>=1.0
+tzdata>=2024.1   # fuso America/Sao_Paulo no Windows
 
 # Desenvolvimento e testes
 pytest>=8.0

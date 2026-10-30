@@ -14,3 +14,7 @@ dados/erros/*
 dados/saida/*
 logs/*
 !**/.gitkeep
+
+# Gabarito do gerador (recriável)
+dados/gabarito.json
+*.egg-info/

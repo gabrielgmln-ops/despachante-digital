@@ -1,9 +1,22 @@
 # despachante-digital/pyproject.toml
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "despachante-digital"
 version = "0.1.0"
 description = "Automação que processa documentos de importação em lote (NF e fatura comercial)."
 requires-python = ">=3.12"
+
+[project.scripts]
+despachante = "despachante.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+despachante = ["templates/*.j2"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
