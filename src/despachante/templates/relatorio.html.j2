@@ -1,0 +1,75 @@
+{# despachante-digital/src/despachante/templates/relatorio.html.j2 #}
+{# Estilos inline/simples: clientes de e-mail ignoram CSS externo e boa parte do <style>. #}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Despachante Digital - Relatório {{ gerado_em }}</title>
+<style>
+  body { font-family: Arial, sans-serif; color: #222; margin: 24px; }
+  h1 { font-size: 20px; margin-bottom: 4px; }
+  .sub { color: #666; font-size: 12px; margin-top: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 12px 0 24px; font-size: 13px; }
+  th, td { border: 1px solid #ccc; padding: 6px 8px; text-align: left; }
+  th { background: #f0f0f0; }
+  .num { text-align: right; }
+  .ok { background: #d4edda; }
+  .div { background: #f8d7da; }
+</style>
+</head>
+<body>
+  <h1>Despachante Digital: relatório de processos</h1>
+  <p class="sub">Gerado em {{ gerado_em }} · dados sintéticos</p>
+
+  <table>
+    <tr><th>Processos</th><th>Conformes</th><th>Divergentes</th><th>Divergências</th><th>PDFs com erro</th></tr>
+    <tr>
+      <td class="num">{{ resumo.total }}</td>
+      <td class="num">{{ resumo.conformes }}</td>
+      <td class="num">{{ resumo.divergentes }}</td>
+      <td class="num">{{ resumo.divergencias }}</td>
+      <td class="num">{{ resumo.erros }}</td>
+    </tr>
+  </table>
+
+  <h2>Processos</h2>
+  <table>
+    <tr><th>Processo</th><th>Status</th><th>NF</th><th>Fatura</th>
+        <th>Valor NF (USD)</th><th>Valor fatura (USD)</th><th>Peso NF (kg)</th><th>Peso fatura (kg)</th></tr>
+    {% for p in processos %}
+    <tr class="{{ 'ok' if p.status == 'CONFORME' else 'div' }}">
+      <td>{{ p.numero }}</td>
+      <td>{{ p.status }}</td>
+      <td>{{ p.nf.numero if p.nf else '-' }}</td>
+      <td>{{ p.fatura.numero if p.fatura else '-' }}</td>
+      <td class="num">{{ p.nf.valor_total_usd | moeda if p.nf else '-' }}</td>
+      <td class="num">{{ p.fatura.valor_total_usd | moeda if p.fatura else '-' }}</td>
+      <td class="num">{{ p.nf.peso_total_kg | peso if p.nf else '-' }}</td>
+      <td class="num">{{ p.fatura.peso_total_kg | peso if p.fatura else '-' }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <h2>Divergências</h2>
+  {% if divergencias %}
+  <table>
+    <tr><th>Processo</th><th>Tipo</th><th>Detalhe</th></tr>
+    {% for d in divergencias %}
+    <tr><td>{{ d.processo }}</td><td>{{ d.tipo }}</td><td>{{ d.detalhe }}</td></tr>
+    {% endfor %}
+  </table>
+  {% else %}
+  <p>Nenhuma divergência encontrada.</p>
+  {% endif %}
+
+  {% if erros %}
+  <h2>PDFs com erro</h2>
+  <table>
+    <tr><th>Arquivo</th><th>Motivo</th></tr>
+    {% for arquivo, info in erros.items() %}
+    <tr><td>{{ arquivo }}</td><td>{{ info.motivo }}</td></tr>
+    {% endfor %}
+  </table>
+  {% endif %}
+</body>
+</html>
