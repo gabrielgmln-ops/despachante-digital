@@ -1,0 +1,11 @@
+# despachante-digital/pyproject.toml
+[project]
+name = "despachante-digital"
+version = "0.1.0"
+description = "Automação que processa documentos de importação em lote (NF e fatura comercial)."
+requires-python = ">=3.12"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+addopts = "-q"

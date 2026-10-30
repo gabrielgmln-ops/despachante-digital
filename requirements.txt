@@ -1,0 +1,13 @@
+# despachante-digital/requirements.txt
+# Dependências de execução (versões mínimas testadas em Python 3.12+)
+watchdog>=4.0
+pdfplumber>=0.11
+pandas>=2.2
+openpyxl>=3.1
+Jinja2>=3.1
+APScheduler>=3.10,<4
+python-dotenv>=1.0
+
+# Desenvolvimento e testes
+pytest>=8.0
+reportlab>=4.2   # usado só pelo gerador de PDFs sintéticos
